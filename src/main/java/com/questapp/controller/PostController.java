@@ -1,7 +1,11 @@
 package com.questapp.controller;
 
+import com.questapp.dto.request.PostCreateRequest;
+import com.questapp.dto.request.PostUpdateRequest;
 import com.questapp.model.Post;
 import com.questapp.service.PostService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +30,23 @@ public class PostController {
     @GetMapping("/{postId}")
     public ResponseEntity<Post> getPostById(@PathVariable Long postId){
         Post post = postService.getPostById(postId);
-        return ResponseEntity.ok(post)
+        return ResponseEntity.ok(post);
     }
+
+    @PostMapping
+    public ResponseEntity<String> createNewPost(@RequestBody PostCreateRequest postCreateRequest){
+        postService.createPost(postCreateRequest);
+        String message = "Post created successfully";
+        return new ResponseEntity<>(message, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updatePost(@PathVariable Long id,
+                                             @RequestBody PostUpdateRequest postUpdateRequest){
+        postService.updatePost(id, postUpdateRequest);
+        String message = "Post created successfully";
+        return ResponseEntity.ok(message);
+    }
+
+
 }

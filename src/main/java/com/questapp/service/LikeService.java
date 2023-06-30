@@ -30,8 +30,9 @@ public class LikeService {
         }else if (userId.isPresent()){
             return likeRepository.findAllByUserId(userId.get());
         }else if (postId.isPresent()){
-            return likeRepository.findAllByPostId(postId.get())
+            return likeRepository.findAllByPostId(postId.get());
         }
+        return likeRepository.findAll();
     }
 
     public Like getLikeById(Long id) {

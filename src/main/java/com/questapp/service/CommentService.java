@@ -26,11 +26,11 @@ public class CommentService {
 
     public List<Comment> getAllComments(Optional<Long> userId, Optional<Long> postId) {
         if (userId.isPresent() && postId.isPresent()){
-            return commentRepository.findAllByUserIdAndPostId();
+            return commentRepository.findAllByUserIdAndPostId(userId.get(), postId.get());
         } else if (userId.isPresent()) {
-            return commentRepository.findAllByUserId();
+            return commentRepository.findAllByUserId(userId.get());
         } else if (postId.isPresent()) {
-            return commentRepository.findAllByPostId();
+            return commentRepository.findAllByPostId(postId.get());
         }else return commentRepository.findAll();
     }
 

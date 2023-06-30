@@ -44,7 +44,14 @@ public class PostController {
     public ResponseEntity<String> updatePost(@PathVariable Long id,
                                              @RequestBody PostUpdateRequest postUpdateRequest){
         postService.updatePost(id, postUpdateRequest);
-        String message = "Post created successfully";
+        String message = "Post updated successfully";
+        return ResponseEntity.ok(message);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deletePost(@PathVariable Long id){
+        postService.deletePost(id);
+        String message = "Post deleted successfully";
         return ResponseEntity.ok(message);
     }
 

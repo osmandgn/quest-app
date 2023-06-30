@@ -1,6 +1,7 @@
 package com.questapp.service;
 
 import com.questapp.dto.request.PostCreateRequest;
+import com.questapp.dto.request.PostUpdateRequest;
 import com.questapp.model.Post;
 import com.questapp.model.User;
 import com.questapp.repository.PostRepository;
@@ -37,5 +38,16 @@ public class PostService {
         post.setTitle(postCreateRequest.getTitle());
         post.setText(postCreateRequest.getText());
         post.setUser(user);
+    }
+
+    public void updatePost(Long id, PostUpdateRequest postUpdateRequest) {
+        Post post = getPostById(id);
+        post.setTitle(postUpdateRequest.getTitle());
+        post.setText(postUpdateRequest.getText());
+    }
+
+    public void deletePost(Long id) {
+        Post post = getPostById(id);
+        postRepository.delete(post);
     }
 }

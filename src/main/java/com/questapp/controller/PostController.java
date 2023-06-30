@@ -2,6 +2,7 @@ package com.questapp.controller;
 
 import com.questapp.dto.request.PostCreateRequest;
 import com.questapp.dto.request.PostUpdateRequest;
+import com.questapp.dto.response.PostResponseDTO;
 import com.questapp.model.Post;
 import com.questapp.service.PostService;
 import org.springframework.http.HttpStatus;
@@ -23,14 +24,14 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity<List<Post>> getAllPosts(@RequestParam("userId") Optional<Long> userId){
-        List<Post> posts = postService.getPosts(userId);
+        List<Post> posts = postService.getAllPosts(userId);
         return ResponseEntity.ok(posts);
     }
 
+
     @GetMapping("/{postId}")
     public ResponseEntity<Post> getPostById(@PathVariable Long postId){
-        Post post = postService.getPostById(postId);
-        return ResponseEntity.ok(post);
+        return ResponseEntity.ok(postService.getPostById(postId));
     }
 
     @PostMapping

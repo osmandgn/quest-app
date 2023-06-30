@@ -19,7 +19,7 @@ public class UserService {
     }
 
     public User getUser(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Message"));
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
         return user;
     }
 

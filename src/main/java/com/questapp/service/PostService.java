@@ -2,14 +2,17 @@ package com.questapp.service;
 
 import com.questapp.dto.request.PostCreateRequest;
 import com.questapp.dto.request.PostUpdateRequest;
+import com.questapp.dto.response.PostResponseDTO;
 import com.questapp.model.Post;
 import com.questapp.model.User;
 import com.questapp.repository.PostRepository;
 import com.questapp.repository.UserRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class PostService {
     private final PostRepository postRepository;
     private final UserService userService;
@@ -19,14 +22,18 @@ public class PostService {
         this.userService = userService;
     }
 
-    public List<Post> getPosts(Optional<Long> userId) {
+
+
+    public List<Post> getAllPosts(Optional<Long> userId) {
         if (userId.isPresent()){
            return postRepository.findByUserId(userId);
         }
         return postRepository.findAll();
     }
 
-    public Post getPostById(Long postId) {
+
+
+    public Post getPostById(Long postId){
         return postRepository.findById(postId).orElseThrow(() -> new RuntimeException("Post Not Found"));
     }
 
@@ -38,6 +45,7 @@ public class PostService {
         post.setTitle(postCreateRequest.getTitle());
         post.setText(postCreateRequest.getText());
         post.setUser(user);
+        postRepository.save(post);
     }
 
     public void updatePost(Long id, PostUpdateRequest postUpdateRequest) {
@@ -50,4 +58,6 @@ public class PostService {
         Post post = getPostById(id);
         postRepository.delete(post);
     }
+
+
 }

@@ -1,5 +1,7 @@
 package com.questapp.controller;
 
+import com.questapp.dto.request.CommentCreateRequest;
+import com.questapp.dto.request.CommentUpdateRequest;
 import com.questapp.model.Comment;
 import com.questapp.service.CommentService;
 import org.springframework.http.ResponseEntity;
@@ -33,18 +35,24 @@ public class CommentController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createComment(@RequestBody CommentCreateRequest commentCreateRequest){
-
+    public ResponseEntity<Comment> createComment(@RequestBody CommentCreateRequest commentCreateRequest){
+       Comment comment =commentService.createComment(commentCreateRequest);
+        return ResponseEntity.ok(comment);
     }
 
     @PutMapping
-    public ResponseEntity<String> updateComment(@PathVariable Long id, @RequestBody CommentUpdateRequest commentUpdateRequest){
-
+    public ResponseEntity<String> updateComment(@PathVariable Long id,
+                                                @RequestBody CommentUpdateRequest commentUpdateRequest){
+        commentService.updateComment(id, commentUpdateRequest);
+        String message = "Comment updated successfully";
+        return ResponseEntity.ok(message);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteComment(@PathVariable Long id){
-
+        commentService.deleteComment(id);
+        String message = "Comment deleted successfully";
+        return ResponseEntity.ok(message);
     }
 
 }

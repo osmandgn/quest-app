@@ -8,6 +8,7 @@ import com.questapp.repository.LikeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LikeService {
@@ -23,8 +24,14 @@ public class LikeService {
     }
 
 
-    public List<Like> getAllLikes() {
-       return likeRepository.findAll();
+    public List<Like> getAllLikes(Optional<Long> userId, Optional<Long> postId) {
+        if (userId.isPresent() && postId.isPresent()){
+            return likeRepository.findAllByUserIdAndPostId(userId.get(), postId.get());
+        }else if (userId.isPresent()){
+            return likeRepository.findAllByUserId(userId.get());
+        }else if (postId.isPresent()){
+            return likeRepository.findAllByPostId(postId.get())
+        }
     }
 
     public Like getLikeById(Long id) {
@@ -41,5 +48,6 @@ public class LikeService {
     public void deleteLike(Long id) {
         likeRepository.deleteById(id);
     }
+
 
 }

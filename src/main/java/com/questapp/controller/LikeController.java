@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/likes")
@@ -19,8 +20,9 @@ public class LikeController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Like>> getAllLikes(){
-        List<Like> likes = likeService.getAllLikes();
+    public ResponseEntity<List<Like>> getAllLikes(@RequestParam Optional<Long> userId, 
+                                                  @RequestParam Optional<Long> postId){
+        List<Like> likes = likeService.getAllLikes(userId, postId);
         return ResponseEntity.ok(likes);
     }
 

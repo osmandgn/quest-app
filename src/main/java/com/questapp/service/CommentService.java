@@ -44,7 +44,7 @@ public class CommentService {
         Post post = postService.getPostById(commentCreateRequest.getPostId());
         Comment comment = new Comment();
         comment.setId(commentCreateRequest.getId());
-        comment.setText(comment.getText());
+        comment.setText(commentCreateRequest.getText());
         comment.setUser(user);
         comment.setPost(post);
         return commentRepository.save(comment);

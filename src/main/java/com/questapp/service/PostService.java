@@ -9,8 +9,10 @@ import com.questapp.repository.PostRepository;
 import com.questapp.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
@@ -24,11 +26,14 @@ public class PostService {
 
 
 
-    public List<Post> getAllPosts(Optional<Long> userId) {
+    public List<PostResponseDTO> getAllPosts(Optional<Long> userId) {
+        List<Post> postList = new ArrayList<>();
         if (userId.isPresent()){
-           return postRepository.findByUserId(userId);
+           postList = postRepository.findByUserId(userId);
+        }else {
+            postList = postRepository.findAll();
         }
-        return postRepository.findAll();
+        return postList.stream().map((post) -> new PostResponseDTO(post)).collect(Collectors.toList());
     }
 
 

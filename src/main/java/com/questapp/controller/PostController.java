@@ -23,8 +23,8 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Post>> getAllPosts(@RequestParam("userId") Optional<Long> userId){
-        List<Post> posts = postService.getAllPosts(userId);
+    public ResponseEntity<List<PostResponseDTO>> getAllPosts(@RequestParam("userId") Optional<Long> userId){
+        List<PostResponseDTO> posts = postService.getAllPosts(userId);
         return ResponseEntity.ok(posts);
     }
 

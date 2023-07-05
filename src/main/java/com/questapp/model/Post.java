@@ -15,6 +15,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @NoArgsConstructor
 public class Post {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @ManyToOne
@@ -24,8 +25,6 @@ public class Post {
 
     String title;
 
-    @Lob
-    @Column(columnDefinition = "text")
     String text;
 
 

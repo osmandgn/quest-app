@@ -3,6 +3,7 @@ package com.questapp.service;
 import com.questapp.dto.request.PostCreateRequest;
 import com.questapp.dto.request.PostUpdateRequest;
 import com.questapp.dto.response.PostResponseDTO;
+import com.questapp.model.Like;
 import com.questapp.model.Post;
 import com.questapp.model.User;
 import com.questapp.repository.PostRepository;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 public class PostService {
     private final PostRepository postRepository;
     private final UserService userService;
+    private LikeService likeService;
 
     public PostService(PostRepository postRepository, UserRepository userRepository, UserService userService) {
         this.postRepository = postRepository;
@@ -33,7 +35,9 @@ public class PostService {
         }else {
             postList = postRepository.findAll();
         }
-        return postList.stream().map((post) -> new PostResponseDTO(post)).collect(Collectors.toList());
+        return postList.stream().map((post) -> {
+           List<Like> likes = likeService.getAllLikes(Optional.of(null), Optional.of(post.getId()));
+           return new PostResponseDTO(post, likes);}).collect(Collectors.toList());
     }
 
 
@@ -42,11 +46,16 @@ public class PostService {
         return postRepository.findById(postId).orElseThrow(() -> new RuntimeException("Post Not Found"));
     }
 
+    public PostResponseDTO getPostDTOById(Long postId){
+        Post post = getPostById(postId);
+        PostResponseDTO postResponseDTO = new PostResponseDTO(post);
+        return postResponseDTO;
+    }
+
 
     public void createPost(PostCreateRequest postCreateRequest) {
         User user = userService.getUser(postCreateRequest.getUserId());
         Post post = new Post();
-        post.setId(postCreateRequest.getId());
         post.setTitle(postCreateRequest.getTitle());
         post.setText(postCreateRequest.getText());
         post.setUser(user);

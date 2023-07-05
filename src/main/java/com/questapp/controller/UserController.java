@@ -1,5 +1,6 @@
 package com.questapp.controller;
 
+import com.questapp.dto.request.UserCreateRequest;
 import com.questapp.model.User;
 import com.questapp.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -33,7 +34,7 @@ public class UserController {
     }
 
     @PostMapping()
-    public ResponseEntity<Map<String, String>> createUser(@RequestBody User user){
+    public ResponseEntity<Map<String, String>> createUser(@RequestBody UserCreateRequest user){
         userService.saveUser(user);
         Map<String, String> map = new HashMap<>();
         map.put("message", "User created succesfully");

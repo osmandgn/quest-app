@@ -1,5 +1,6 @@
 package com.questapp.service;
 
+import com.questapp.dto.request.UserCreateRequest;
 import com.questapp.model.User;
 import com.questapp.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,10 @@ public class UserService {
         return user;
     }
 
-    public void saveUser(User user) {
+    public void saveUser(UserCreateRequest userDTO) {
+        User user = new User();
+        user.setUsername(userDTO.getUsername());
+        user.setPassword(userDTO.getPassword());
         userRepository.save(user);
     }
 

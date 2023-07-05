@@ -10,7 +10,9 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -30,15 +32,17 @@ public class PostController {
 
 
     @GetMapping("/{postId}")
-    public ResponseEntity<Post> getPostById(@PathVariable Long postId){
-        return ResponseEntity.ok(postService.getPostById(postId));
+    public ResponseEntity<PostResponseDTO> getPostById(@PathVariable Long postId){
+        return ResponseEntity.ok(postService.getPostDTOById(postId));
     }
 
     @PostMapping
-    public ResponseEntity<String> createNewPost(@RequestBody PostCreateRequest postCreateRequest){
+    public ResponseEntity<Map<String, String>> createNewPost(@RequestBody PostCreateRequest postCreateRequest){
         postService.createPost(postCreateRequest);
-        String message = "Post created successfully";
-        return new ResponseEntity<>(message, HttpStatus.CREATED);
+        Map<String, String> map = new HashMap<>();
+        map.put("status", "true");
+        map.put("message", "Post created successfully");
+        return new ResponseEntity<>(map, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
